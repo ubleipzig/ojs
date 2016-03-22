@@ -1115,7 +1115,8 @@ Die Prüfung kann bei Such-URLs, die Formularausfüllung verlangen, fehlschlagen
     <message key="submission.shortAuthor">Autor (kurz)</message>
     <message key="grid.submission.itemTitle">Titel</message>
     <message key="workflow.stage">Workflow Schritt</message>
-    <message key="submission.submit.NewSubmission">Neue Einreichung</message>
+    <message key="submission.submit.NewSubmission">Neue Einreichungen</message>
+    <message key="submission.submit.NewSubmissionSingle">Neue Einreichung</message>
 
     <message key="default.genre.article">Artikel Genre</message>
     <message key="submission.upload.selectComponent">Baustein auswählen</message>
