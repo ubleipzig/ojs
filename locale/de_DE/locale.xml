@@ -1125,6 +1125,9 @@ Die Prüfung kann bei Such-URLs, die Formularausfüllung verlangen, fehlschlagen
     <message key="submission.query.lastReply">Letzte Antwort</message>
     <message key="submission.query.replies">Antworten</message>
 
-
+    <message key="navigation.viewFrontend">Frontend anzeigen</message>
+    <message key="dashboard.myQueue">Meine Beiträge</message>
+    <message key="grid.action.markNew">Neu</message>
+    <message key="grid.action.markRead">Gelesen</message>
 
 </locale>
