@@ -1107,9 +1107,9 @@ Die Prüfung kann bei Such-URLs, die Formularausfüllung verlangen, fehlschlagen
 	<!-- Included here because it may be used in the navigation bar -->
 	<message key="editor.navigation.issues">Ausgaben</message>
 
-	<!-- New Translations -- uncategorized -->
+	<!-- New Translations - uncategorized -->
 
-    <message key="common.homepageNavigationLabel">OJS UB-Leipzig</message>
+    <message key="common.homepageNavigationLabel">Start</message>
     <message key="navigation.breadcrumbSeparator">|</message>
 
     <message key="submission.shortAuthor">Autor (kurz)</message>
