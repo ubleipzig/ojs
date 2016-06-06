@@ -1106,45 +1106,4 @@ Die Prüfung kann bei Such-URLs, die Formularausfüllung verlangen, fehlschlagen
 
 	<!-- Included here because it may be used in the navigation bar -->
 	<message key="editor.navigation.issues">Ausgaben</message>
-
-	<!-- New Translations - uncategorized -->
-
-    <message key="common.homepageNavigationLabel">Start</message>
-    <message key="navigation.breadcrumbSeparator">|</message>
-
-    <message key="submission.shortAuthor">Autor (kurz)</message>
-    <message key="grid.submission.itemTitle">Titel</message>
-    <message key="workflow.stage">Phase</message>
-    <message key="submission.submit.newSubmissionSingle">Neue Einreichung</message>
-
-    <message key="default.genre.article">Artikel Genre</message>
-    <message key="submission.upload.selectComponent">Baustein auswählen</message>
-
-    <message key="submission.queries.submission">Einreichung suchen</message>
-    <message key="submission.query.from">Konversation von</message>
-    <message key="submission.query.lastReply">Letzte Antwort</message>
-    <message key="submission.query.replies">Antworten</message>
-
-    <message key="navigation.viewFrontend">Frontend anzeigen</message>
-    <message key="dashboard.myQueue">Meine Beiträge</message>
-    <message key="grid.action.markNew">Neu</message>
-    <message key="grid.action.markRead">Gelesen</message>
-
-    <message key="common.viewProfile">Benutzerprofil</message>
-    <message key="user.profile.identity">Allgemein</message>
-    <message key="user.profile.contact">Kontaktinformationen</message>
-    <message key="user.profile.ublic">Öffentliche Seite</message>
-    <message key="common.upload.addFile">Datei hinzufügen</message>
-    <message key="common.upload.dragFile">Ziehen Sie die Datei auf diese Fläche</message>
-    <message key="user.orcid">ORCID (Open Researcher and Contributor ID)</message>
-
-    <message key="notification.type.submissionSubmitted">Neuer Artikel wurde eingereicht</message>
-    <message key="notification.type.queryAdded">Konversation hinzugefügt</message>
-    <message key="notification.type.queryActivity">Aktive Konversationen</message>
-    <message key="manager.settings.journalDescription">
-Alle Einstellungen spezifisch für die Zeitschrift (Impressum, Kontakt, Richtlinien, Leitlinien, Zugehörigkeit und Unterstützung, Kategorien und Serien).</message>
-    <message key="manager.settings.websiteDescription">Alle Einstellungen speziell für die öffentliche Webseite (Homepage, Aussehen, Sprache).</message>
-    <message key="manager.settings.publicationDescription">Alle Einstellungen spezifisch für den Publikationsprozess (Allgemeine Einstellungen, Vorlagenphase, Prüfungsphase, Redaktionsphase, Produktionsphase, E-Mail-Vorlagen).</message>
-    <message key="manager.settings.distributionDescription">Alle Einstellungen spezifisch für den Distributionsprozesses (Benachrichtigung, Indexierung, Archivierung, Bezahlung, Readerwerkzeuge).</message>
-
 </locale>
