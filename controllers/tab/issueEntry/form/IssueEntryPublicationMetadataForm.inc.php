@@ -289,7 +289,7 @@ class IssueEntryPublicationMetadataForm extends Form {
 				// Schedule against an issue.
 				if ($publishedArticle) {
 					$publishedArticle->setIssueId($issueId);
-					$publishedArticle->setSeq(REALLY_BIG_NUMBER);
+					$publishedArticle->setSequence(REALLY_BIG_NUMBER);
 					$publishedArticle->setDatePublished($this->getData('datePublished'));
 					$publishedArticle->setAccessStatus($accessStatus);
 					$publishedArticleDao->updatePublishedArticle($publishedArticle);
@@ -301,10 +301,10 @@ class IssueEntryPublicationMetadataForm extends Form {
 					$publishedArticle->setId($submission->getId());
 					$publishedArticle->setIssueId($issueId);
 					$publishedArticle->setDatePublished(Core::getCurrentDate());
-					$publishedArticle->setSeq(REALLY_BIG_NUMBER);
+					$publishedArticle->setSequence(REALLY_BIG_NUMBER);
 					$publishedArticle->setAccessStatus($accessStatus);
 
-					$publishedArticleDao->insertPublishedArticle($publishedArticle);
+					$publishedArticleDao->insertObject($publishedArticle);
 
 					// If we're using custom section ordering, and if this is the first
 					// article published in a section, make sure we enter a custom ordering

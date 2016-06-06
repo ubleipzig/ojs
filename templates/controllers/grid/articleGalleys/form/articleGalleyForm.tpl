@@ -7,15 +7,22 @@
  *
  * Form to add/edit an issue galley.
  *}
-<script>
+{if $remoteURL}
+	{assign var="remoteRepresentation" value=true}
+{else}
+	{assign var="remoteRepresentation" value=false}
+{/if}
+<script type="text/javascript">
 	$(function() {ldelim}
 		// Attach the form handler.
-		$('#articleGalleyForm').pkpHandler(
-			'$.pkp.controllers.form.AjaxFormHandler'
+		$('#articleGalleyForm').pkpHandler('$.pkp.controllers.grid.representations.form.RepresentationFormHandler',
+			{ldelim}
+				remoteRepresentation: {$remoteRepresentation|json_encode escape=false}
+			{rdelim}
 		);
 	{rdelim});
 </script>
-<form class="pkp_form" id="articleGalleyForm" method="post" action="{url op="updateFormat" submissionId=$submissionId representationId=$representationId}">
+<form class="pkp_form" id="articleGalleyForm" method="post" action="{url op="updateGalley" submissionId=$submissionId representationId=$representationId}">
 	{fbvFormArea id="galley"}
 		{fbvFormSection title="submission.layout.galleyFileData"}
 			{fbvElement type="text" label="submission.layout.galleyLabel" value=$label id="label" size=$fbvStyles.size.MEDIUM inline=true}
@@ -25,7 +32,12 @@
 		{/fbvFormSection}
 		{fbvFormSection}
 			{fbvElement type="select" id="galleyLocale" label="common.language" from=$supportedLocales selected=$galleyLocale|default:$formLocale size=$fbvStyles.size.MEDIUM translate=false inline=true}
-			{fbvElement type="select" id="galleyType" label="submission.layout.galleyType" from=$enabledPlugins selected=$galleyType size=$fbvStyles.size.MEDIUM translate=false inline=true}
+		{/fbvFormSection}
+		{fbvFormSection for="remotelyHostedContent" list=true}
+			{fbvElement type="checkbox" label="submission.layout.galley.remotelyHostedContent" id="remotelyHostedContent"}
+			<div id="remote" style="display:none">
+				{fbvElement type="text" id="remoteURL" label="submission.layout.galley.remoteURL" value=$remoteURL}
+			</div>
 		{/fbvFormSection}
 	{/fbvFormArea}
 

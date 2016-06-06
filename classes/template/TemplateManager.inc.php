@@ -46,8 +46,13 @@ class TemplateManager extends PKPTemplateManager {
 			$siteStyleFilename = $publicFileManager->getSiteFilesPath() . '/' . $site->getSiteStyleFilename();
 			if (file_exists($siteStyleFilename)) $this->addStyleSheet($request->getBaseUrl() . '/' . $siteStyleFilename, STYLE_SEQUENCE_LAST);
 
-			$this->assign('siteCategoriesEnabled', $site->getSetting('categoriesEnabled'));
-
+			// Get a count of unread tasks.
+			if ($user = $request->getUser()) {
+				$notificationDao = DAORegistry::getDAO('NotificationDAO');
+				// Exclude certain tasks, defined in the notifications grid handler
+				import('lib.pkp.controllers.grid.notifications.TaskNotificationsGridHandler');
+				$this->assign('unreadNotificationCount', $notificationDao->getNotificationCount(false, $user->getId(), null, NOTIFICATION_LEVEL_TASK));
+			}
 			if (isset($context)) {
 
 				$this->assign('currentJournal', $context);
@@ -55,7 +60,7 @@ class TemplateManager extends PKPTemplateManager {
 				$this->assign('publicFilesDir', $request->getBaseUrl() . '/' . $publicFileManager->getJournalFilesPath($context->getId()));
 
 				$this->assign('primaryLocale', $context->getPrimaryLocale());
-				$this->assign('alternateLocales', $context->getSetting('alternateLocales'));
+				$this->assign('supportedLocales', $context->getSupportedLocaleNames());
 
 				// Assign page header
 				$this->assign('displayPageHeaderTitle', $context->getLocalizedPageHeaderTitle());
@@ -71,7 +76,7 @@ class TemplateManager extends PKPTemplateManager {
 				$this->assign('contextSettings', $context->getSettingsDAO()->getSettings($context->getId()));
 
 				// Assign stylesheets and footer
-				$contextStyleSheet = $context->getSetting('journalStyleSheet');
+				$contextStyleSheet = $context->getSetting('styleSheet');
 				if ($contextStyleSheet) {
 					$this->addStyleSheet($request->getBaseUrl() . '/' . $publicFileManager->getJournalFilesPath($context->getId()) . '/' . $contextStyleSheet['uploadName'], STYLE_SEQUENCE_LAST);
 				}
@@ -80,7 +85,6 @@ class TemplateManager extends PKPTemplateManager {
 				// This allows us to reduce template duplication by using this
 				// variable in templates/common/header.tpl, instead of
 				// reproducing a lot of OMP/OJS-specific logic there.
-				$router = $request->getRouter();
 				$dispatcher = $request->getDispatcher();
 				$this->assign( 'contextSettingsUrl', $dispatcher->url($request, ROUTE_PAGE, null, 'management', 'settings', 'journal') );
 
@@ -96,6 +100,7 @@ class TemplateManager extends PKPTemplateManager {
 
 				$this->assign('siteTitle', $site->getLocalizedTitle());
 				$this->assign('primaryLocale', $site->getPrimaryLocale());
+				$this->assign('supportedLocales', $site->getSupportedLocaleNames());
 			}
 		}
 	}

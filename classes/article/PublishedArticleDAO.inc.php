@@ -282,7 +282,7 @@ class PublishedArticleDAO extends ArticleDAO {
 		$publishedArticle->setId($row['submission_id']);
 		$publishedArticle->setIssueId($row['issue_id']);
 		$publishedArticle->setDatePublished($this->datetimeFromDB($row['date_published']));
-		$publishedArticle->setSeq($row['seq']);
+		$publishedArticle->setSequence($row['seq']);
 		$publishedArticle->setAccessStatus($row['access_status']);
 
 		$result->Close();
@@ -543,7 +543,7 @@ class PublishedArticleDAO extends ArticleDAO {
 		$publishedArticle = parent::_fromRow($row);
 		$publishedArticle->setPublishedArticleId($row['published_submission_id']);
 		$publishedArticle->setIssueId($row['issue_id']);
-		$publishedArticle->setSeq($row['seq']);
+		$publishedArticle->setSequence($row['seq']);
 		$publishedArticle->setAccessStatus($row['access_status']);
 
 		$publishedArticle->setGalleys($this->galleyDao->getBySubmissionId($row['submission_id'])->toArray());
@@ -558,7 +558,7 @@ class PublishedArticleDAO extends ArticleDAO {
 	 * @param PublishedArticle object
 	 * @return pubId int
 	 */
-	function insertPublishedArticle($publishedArticle) {
+	function insertObject($publishedArticle) {
 		$this->update(
 			sprintf('INSERT INTO published_submissions
 				(submission_id, issue_id, date_published, seq, access_status)
@@ -568,7 +568,7 @@ class PublishedArticleDAO extends ArticleDAO {
 			array(
 				(int) $publishedArticle->getId(),
 				(int) $publishedArticle->getIssueId(),
-				$publishedArticle->getSeq(),
+				$publishedArticle->getSequence(),
 				$publishedArticle->getAccessStatus()
 			)
 		);
@@ -663,7 +663,7 @@ class PublishedArticleDAO extends ArticleDAO {
 			array(
 				(int) $publishedArticle->getId(),
 				(int) $publishedArticle->getIssueId(),
-				$publishedArticle->getSeq(),
+				$publishedArticle->getSequence(),
 				$publishedArticle->getAccessStatus(),
 				(int) $publishedArticle->getPublishedArticleId()
 			)

@@ -45,11 +45,10 @@ class IndexHandler extends Handler {
 			}
 		}
 
+		$this->setupTemplate($request);
 		$router = $request->getRouter();
 		$templateMgr = TemplateManager::getManager($request);
 		$journalDao = DAORegistry::getDAO('JournalDAO');
-		$this->setupTemplate($request);
-
 		if ($journal) {
 			// Assign header and content for home page
 			$templateMgr->assign('additionalHomeContent', $journal->getLocalizedSetting('additionalHomeContent'));
@@ -73,8 +72,9 @@ class IndexHandler extends Handler {
 					$numAnnouncementsHomepage = $journal->getSetting('numAnnouncementsHomepage');
 					$announcementDao = DAORegistry::getDAO('AnnouncementDAO');
 					$announcements =& $announcementDao->getNumAnnouncementsNotExpiredByAssocId(ASSOC_TYPE_JOURNAL, $journal->getId(), $numAnnouncementsHomepage);
-					$templateMgr->assign('announcements', $announcements);
+					$templateMgr->assign('announcements', $announcements->toArray());
 					$templateMgr->assign('enableAnnouncementsHomepage', $enableAnnouncementsHomepage);
+					$templateMgr->assign('numAnnouncementsHomepage', $numAnnouncementsHomepage);
 				}
 			}
 

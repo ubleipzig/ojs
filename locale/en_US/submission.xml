@@ -32,7 +32,6 @@
 	<message key="submission.issueEntry.modalTitle">Submission and Publication Metadata</message>
 	<message key="submission.issueEntry.submissionMetadata">Submission</message>
 	<message key="submission.issueEntry.publicationMetadata">Publication</message>
-	<message key="issue.manage.entryDescription">Detailed help test for managing a journal's metadata should go here.</message>
 	<message key="submission.issueEntry.confirm">Create an issue entry for this article based on the metadata below.</message>
 
 	<!-- events -->
@@ -59,6 +58,6 @@
 	<message key="submission.event.issueMetadataUpdated">The submission's issue metadata was updated.</message>
 
 	<message key="submission.upload.fileContents">Article Component</message>
-	<message key="submission.noCatalogEntry">Awaiting Approval</message>
-	<message key="submission.catalogEntry">Approved</message>
+	<message key="submission.complete">Approved</message>
+	<message key="submission.incomplete">Awaiting Approval</message>
 </locale>

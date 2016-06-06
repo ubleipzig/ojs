@@ -131,7 +131,7 @@ class OAIMetadataFormat_NLM extends OAIMetadataFormat {
 		$response .=
 			($issue->getShowYear()?"\t\t\t<pub-date pub-type=\"collection\"><year>" . htmlspecialchars(Core::cleanVar($issue->getYear())) . "</year></pub-date>\n":'') .
 			($issue->getShowVolume()?"\t\t\t<volume>" . htmlspecialchars(Core::cleanVar($issue->getVolume())) . "</volume>\n":'') .
-			($issue->getShowNumber()?"\t\t\t<issue seq=\"" . htmlspecialchars(Core::cleanVar(($sectionSeq[$section->getId()]*100) + $article->getSeq())) . "\">" . htmlspecialchars(Core::cleanVar($issue->getNumber())) . "</issue>\n":'') .
+			($issue->getShowNumber()?"\t\t\t<issue seq=\"" . htmlspecialchars(Core::cleanVar(($sectionSeq[$section->getId()]*100) + $article->getSequence())) . "\">" . htmlspecialchars(Core::cleanVar($issue->getNumber())) . "</issue>\n":'') .
 			"\t\t\t<issue-id pub-id-type=\"other\">" . htmlspecialchars(Core::cleanVar($issue->getBestIssueId())) . "</issue-id>\n" .
 			($issue->getShowTitle()?"\t\t\t<issue-title>" . htmlspecialchars(Core::cleanVar($issue->getLocalizedTitle())) . "</issue-title>\n":'');
 
@@ -203,7 +203,7 @@ class OAIMetadataFormat_NLM extends OAIMetadataFormat {
 		$galleys = $article->getGalleys();
 
 		// Give precedence to HTML galleys, as they're quickest to parse
-		usort($galleys, create_function('$a, $b', 'return $a->isHtmlGalley()?-1:1;'));
+		usort($galleys, create_function('$a, $b', 'return $a->getFileType()==\'text/html\')?-1:1;'));
 
 		// Determine any access limitations. If there are, do not
 		// provide the full-text.
@@ -219,7 +219,7 @@ class OAIMetadataFormat_NLM extends OAIMetadataFormat {
 				$parser->close();
 			}
 
-			if ($galley->isHtmlGalley()) $text = strip_tags($text);
+			if ($galley->getFileType()=='text/html') $text = strip_tags($text);
 			unset($galley);
 			// Use the first parseable galley.
 			if (!empty($text)) break;
