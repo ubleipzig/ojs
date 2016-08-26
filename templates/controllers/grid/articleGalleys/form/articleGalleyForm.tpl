@@ -23,12 +23,10 @@
 	{rdelim});
 </script>
 <form class="pkp_form" id="articleGalleyForm" method="post" action="{url op="updateGalley" submissionId=$submissionId representationId=$representationId}">
+	{csrf}
 	{fbvFormArea id="galley"}
-		{fbvFormSection title="submission.layout.galleyFileData"}
-			{fbvElement type="text" label="submission.layout.galleyLabel" value=$label id="label" size=$fbvStyles.size.MEDIUM inline=true}
-			{if $enablePublicGalleyId}
-				{fbvElement type="text" label="submission.layout.publicGalleyId" value=$publicGalleyId id="publicGalleyId" size=$fbvStyles.size.MEDIUM inline=true}
-			{/if}
+		{fbvFormSection title="submission.layout.galleyLabel"}
+			{fbvElement type="text" label="submission.layout.galleyLabelInstructions" value=$label id="label" size=$fbvStyles.size.MEDIUM inline=true}
 		{/fbvFormSection}
 		{fbvFormSection}
 			{fbvElement type="select" id="galleyLocale" label="common.language" from=$supportedLocales selected=$galleyLocale|default:$formLocale size=$fbvStyles.size.MEDIUM translate=false inline=true}
@@ -40,6 +38,11 @@
 			</div>
 		{/fbvFormSection}
 	{/fbvFormArea}
+
+	{if $articleGalleyFile && $articleGalleyFile->getFileType()=='text/html'}
+		{url|assign:dependentFilesGridUrl router=$smarty.const.ROUTE_COMPONENT component="grid.files.dependent.DependentFilesGridHandler" op="fetchGrid" submissionId=$submissionId fileId=$articleGalleyFile->getFileId() stageId=$smarty.const.WORKFLOW_STAGE_ID_PRODUCTION escape=false}
+		{load_url_in_div id="dependentFilesGridDiv" url=$dependentFilesGridUrl}
+	{/if}
 
 	{fbvFormButtons submitText="common.save"}
 </form>

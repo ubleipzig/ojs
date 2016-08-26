@@ -13,6 +13,9 @@
  * @uses $issueGalleys array Galleys for the entire issue
  * @uses $hasAccess bool Can this user access galleys for this context?
  * @uses $showGalleyLinks bool Show galley links to users without access?
+ * @uses $coverImagePath string Base URL path for an issue cover image
+ * @uses $publishedArticles array Lists of articles published in this issue
+ *   sorted by section.
  *}
 <div class="obj_issue_toc">
 
@@ -21,12 +24,62 @@
 		{include file="frontend/components/notification.tpl" type="warning" messageKey="editor.issues.preview"}
 	{/if}
 
-	{* Description *}
-	{if $issue->hasDescription()}
-		<div class="description">
-			{$issue->getLocalizedDescription()|strip_unsafe_html|nl2br}
-		</div>
-	{/if}
+	{* Issue introduction area above articles *}
+	<div class="heading">
+
+		{* Issue cover image *}
+		{assign var=issueCover value=$issue->getCoverImage()}
+		{if $issueCover}
+			<a class="cover" href="{url op="view" page="issue" path=$issue->getBestIssueId()}">
+				<img src="{$coverImagePath|escape}{$issueCover|escape}"{if $issue->getCoverImageAltText() != ''} alt="{$issue->getCoverImageAltText()|escape}"{/if}>
+			</a>
+		{/if}
+
+		{* Description *}
+		{if $issue->hasDescription()}
+			<div class="description">
+				{$issue->getLocalizedDescription()|strip_unsafe_html}
+			</div>
+		{/if}
+
+		{* PUb IDs (eg - DOI) *}
+		{foreach from=$pubIdPlugins item=pubIdPlugin}
+			{if $issue->getPublished()}
+				{assign var=pubId value=$issue->getStoredPubId($pubIdPlugin->getPubIdType())}
+			{else}
+				{assign var=pubId value=$pubIdPlugin->getPubId($issue)}{* Preview pubId *}
+			{/if}
+			{if $pubId}
+				{assign var="doiUrl" value=$pubIdPlugin->getResolvingURL($currentJournal->getId(), $pubId)|escape}
+				<div class="pub_id {$pubIdPlugin->getPubIdType()|escape}">
+					<span class="type">
+						{$pubIdPlugin->getPubIdDisplayType()|escape}:
+					</span>
+					<span class="id">
+						{if $doiUrl}
+							<a href="{$doiUrl|escape}">
+								{$doiUrl}
+							</a>
+						{else}
+							{$pubId}
+						{/if}
+					</span>
+				</div>
+			{/if}
+		{/foreach}
+
+		{* Published date *}
+		{if $issue->getDatePublished()}
+			<div class="published">
+				<span class="label">
+					{translate key="submissions.published"}:
+				</span>
+				<span class="value">
+					{$issue->getDatePublished()|date_format:$dateFormatShort}
+				</span>
+			</div>
+		{/if}
+	</div>
 
 	{* Full-issue galleys *}
 	{if $issueGalleys && ($hasAccess || $showGalleyLinks)}

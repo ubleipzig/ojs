@@ -15,10 +15,10 @@
 
 {* Get the Id of the parent object *}
 {if $parent instanceOf Issue}
-	{assign var="parentId" value=$parent->getBestIssueId($currentJournal)}
+	{assign var="parentId" value=$parent->getBestIssueId()}
 	{url|assign:"parentUrl" op="view" path=$parentId}
 {else}
-	{assign var="parentId" value=$parent->getBestArticleId($currentJournal)}
+	{assign var="parentId" value=$parent->getBestArticleId()}
 	{url|assign:"parentUrl" page="article" op="view" path=$parentId}
 {/if}
 
@@ -28,10 +28,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset={$defaultCharset|escape}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{translate key="article.pdf.pageTitle" pdfTitle=$pdfTitle}</title>
-	<meta name="generator" content="{$applicationName} {$currentVersionString|escape}" />
-	{$metaCustomHeaders}
-	{if $displayFavicon}<link rel="icon" href="{$faviconDir}/{$displayFavicon.uploadName|escape:"url"}" type="{$displayFavicon.mimeType|escape}" />{/if}
 
+	{load_header context="frontend" headers=$headers}
 	{load_stylesheet context="frontend" stylesheets=$stylesheets}
 </head>
 <body class="pkp_page_{$requestedPage|escape} pkp_op_{$requestedOp|escape}">
@@ -53,7 +51,7 @@
 			{$pdfTitle}
 		</a>
 
-		<a href="{url page="issue" op="download" path=$parentId|to_array:$galley->getBestGalleyId($currentJournal)}" class="download" download>
+		<a href="{url page="issue" op="download" path=$parentId|to_array:$galley->getBestGalleyId()}" class="download" download>
 			<span class="label">
 				{translate key="common.download"}
 			</span>
@@ -64,7 +62,7 @@
 
 	</header>
 
-	<iframe class="pdf" src="{url page="issue" op="download" path=$parentId|to_array:$galley->getBestGalleyId($currentJournal)}"></iframe>
+	<iframe class="pdf" src="{url page="issue" op="download" path=$parentId|to_array:$galley->getBestGalleyId()}"></iframe>
 
 	{call_hook name="Templates::Common::Footer::PageFooter"}
 

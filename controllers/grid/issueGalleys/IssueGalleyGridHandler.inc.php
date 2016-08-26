@@ -147,17 +147,16 @@ class IssueGalleyGridHandler extends GridHandler {
 		}
 
 		// Public ID, if enabled
-		if ($journal->getSetting('enablePublicGalleyId')) {
-			$this->addColumn(
-				new GridColumn(
-					'publicGalleyId',
-					'submission.layout.publicGalleyId',
-					null,
-					null,
-					$issueGalleyGridCellProvider
-				)
-			);
-		}
+		$this->addColumn(
+			new GridColumn(
+				'publicGalleyId',
+				'submission.layout.publicGalleyId',
+				null,
+				null,
+				$issueGalleyGridCellProvider
+			)
+		);
+
 	}
 
 	/**
@@ -253,9 +252,8 @@ class IssueGalleyGridHandler extends GridHandler {
 		if ($issueGalleyForm->validate($request)) {
 			$issueId = $issueGalleyForm->execute($request);
 			return DAO::getDataChangedEvent($issueId);
-		} else {
-			return new JSONMessage(false);
 		}
+		return new JSONMessage(false);
 	}
 
 	/**
@@ -266,9 +264,11 @@ class IssueGalleyGridHandler extends GridHandler {
 	function delete($args, $request) {
 		$issueGalleyDao = DAORegistry::getDAO('IssueGalleyDAO');
 		$issueGalley = $this->getAuthorizedContextObject(ASSOC_TYPE_ISSUE_GALLEY);
-		$issueGalley->getId();
-		$issueGalleyDao->deleteObject($issueGalley);
-		return DAO::getDataChangedEvent();
+		if ($issueGalley && $request->checkCSRF()) {
+			$issueGalleyDao->deleteObject($issueGalley);
+			return DAO::getDataChangedEvent();
+		}
+		return new JSONMessage(false);
 	}
 
 	/**

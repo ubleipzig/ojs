@@ -4,10 +4,10 @@
 <!--
   * locale/en_US/manager.xml
   *
-  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2013-2016 Simon Fraser University Library
   * Copyright (c) 2003-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
-  *
+  * Localization information: https://pkp.sfu.ca/wiki/index.php?title=Translating_OxS
   * Localization strings.
   -->
 
@@ -164,18 +164,11 @@
 	<message key="manager.setup.emailBounceAddressDescription">Any undeliverable emails will result in an error message to this address.</message>
 	<message key="manager.setup.emailBounceAddressDisabled"><![CDATA[<strong>Note:</strong> To activate this option, the site administrator must enable the <tt>allow_envelope_sender</tt> option in the OJS configuration file. Additional server configuration may be required to support this functionality (which may not be possible on all servers), as indicated in the OJS documentation.]]></message>
 	<message key="manager.setup.emails">Email Identification</message>
-	<message key="manager.setup.emailHeader">Email Header</message>
-	<message key="manager.setup.emailHeaderDescription">The prepared emails that are sent by the system on behalf of the journal will begin with the following header. These emails will be addressed from the Principal Contact, so it's important to clarify that the Primary Contact is not necessarily responsible for the message content, which may be sent on behalf of a different user.</message>
 	<message key="manager.setup.emailSignature">Signature</message>
 	<message key="manager.setup.emailSignatureDescription">The prepared emails that are sent by the system on behalf of the journal will have the following signature added to the end.</message>
 	<message key="manager.setup.enableAnnouncements">Enable Journal Managers to add journal announcements.</message>
 	<message key="manager.setup.enableAnnouncementsHomepage1">Display</message>
 	<message key="manager.setup.enableAnnouncementsHomepage2">of the most recent announcements on the journal homepage.</message>
-	<message key="manager.setup.enablePageNumber">Page numbers for items will be calculated and entered manually in the Table of Contents (e.g., pp. 13-26).</message>
-	<message key="manager.setup.enablePublicArticleId">Custom identifiers will be used to identify published items.</message>
-	<message key="manager.setup.enablePublicGalleyId">Custom identifiers will be used to identify galleys (e.g. HTML or PDF files) for published items.</message>
-	<message key="manager.setup.enablePublicIssueId">Custom identifiers will be used to identify issues.</message>
-	<message key="manager.setup.enablePublicSuppFileId">Custom identifiers will be used to identify supplemental article files.</message>
 	<message key="manager.setup.enableUserRegistration">Visitors can register a user account with the press.</message>
 	<message key="manager.setup.focusAndScope">Focus and scope</message>
 	<message key="manager.setup.focusAndScope.description">Describe to authors, readers, and librarians the range of articles and other items the press will publish.</message>
@@ -248,7 +241,7 @@
 	<message key="manager.setup.lockssEnable"><![CDATA[Enable LOCKSS to store and distribute journal content at participating libraries via a LOCKSS <a href="{$lockssUrl}" target="_blank">Publisher Manifest</a> page.]]></message>
 	<message key="manager.setup.lockssLicenseDescription"><![CDATA[A LOCKSS license will appear in About the Journal under Archiving: <a href="http://www.lockss.org/community/publishers-titles-gln/" target="_blank">LOCKSS License</a>]]></message>
 	<message key="manager.setup.lockssLicenseLabel">LOCKSS License Description</message>
-	<message key="manager.setup.lockssRegister"><![CDATA[Identify 6-10 libraries that will register and cache the journal. For example, turn to institutions where editors or Board members work and/or institutions already participating in LOCKSS. See <a href="http://www.lockss.org/community/" target="_blank">the LOCKSS community</a>. Use the prepared invitations for (i) <a href="{$lockssExistingArchiveUrl}" target="_blank">libraries participating in LOCKSS</a> or (ii) <a href="{$lockssNewArchiveUrl}" target="_blank">libraries not yet participating in LOCKSS</a>.]]></message>
+	<message key="manager.setup.lockssRegister"><![CDATA[Identify 6-10 libraries that will register and cache the journal. For example, turn to institutions where editors or Board members work and/or institutions already participating in LOCKSS. See <a href="http://www.lockss.org/community/" target="_blank">the LOCKSS community</a>.]]></message>
 	<message key="manager.setup.lockssTitle">LOCKSS</message>
 	<message key="manager.setup.clockssEnable"><![CDATA[Enable CLOCKSS to store and distribute journal content at participating libraries via a CLOCKSS <a href="{$clockssUrl}" target="_blank">Publisher Manifest</a> page.]]></message>
 	<message key="manager.setup.clockssLicenseDescription"><![CDATA[A CLOCKSS license will appear in About the Journal under Archiving: <a href="http://clockss.org/" target="_blank">CLOCKSS License</a>]]></message>
@@ -287,7 +280,7 @@
 	<message key="manager.setup.publicationScheduling">Publication Scheduling</message>
 	<message key="manager.setup.publicIdentifier">Identification of Journal Content</message>
 	<message key="manager.setup.publisher">Publisher</message>
-	<message key="manager.setup.publisherDescription">The name of the organization publishing the journal will appear in About the Journal.</message>
+	<message key="manager.setup.publisherDescription">The name of the organization publishing the journal may be included in metadata provided to third-party archival bodies.</message>
 	<message key="manager.setup.referenceLinking">Reference Linking</message>
 	<message key="manager.setup.refLinkInstructions.description">Layout Instructions for Reference Linking</message>
 	<message key="manager.setup.restrictArticleAccess">Users must be registered and log in to view open access content.</message>
@@ -370,12 +363,12 @@
 	<message key="manager.statistics.statistics.selectSections">Select the sections for calculating this journal's peer-reviewed statistics.</message>
 	<message key="manager.statistics.statistics.subscriptions">Subscriptions</message>
 	<message key="manager.statistics.reports.defaultReport.articleDownloads">Article file downloads</message>
-        <message key="manager.statistics.reports.defaultReport.articleAbstract">Article abstract page views</message>
-        <message key="manager.statistics.reports.defaultReport.articleAbstractAndDownloads">Article abstract and downloads</message>
-        <message key="manager.statistics.reports.defaultReport.journalIndexPageViews">Journal main page views</message>
-        <message key="manager.statistics.reports.defaultReport.issuePageViews">Issue table of contents page views</message>
-        <message key="manager.statistics.reports.filters.byContext.description">Narrow results by context (issues and/or article).</message>
-        <message key="manager.statistics.reports.filters.byObject.description">Narrow results by object type (journal, issue, article, file types) and/or by one or more object id(s).</message>
+	<message key="manager.statistics.reports.defaultReport.articleAbstract">Article abstract page views</message>
+	<message key="manager.statistics.reports.defaultReport.articleAbstractAndDownloads">Article abstract and downloads</message>
+	<message key="manager.statistics.reports.defaultReport.journalIndexPageViews">Journal main page views</message>
+	<message key="manager.statistics.reports.defaultReport.issuePageViews">Issue table of contents page views</message>
+	<message key="manager.statistics.reports.filters.byContext.description">Narrow results by context (issues and/or article).</message>
+	<message key="manager.statistics.reports.filters.byObject.description">Narrow results by object type (journal, issue, article, file types) and/or by one or more object id(s).</message>
 
 	<message key="manager.subscriptionPolicies">Subscription Policies</message>
 	<message key="manager.subscriptionPolicies.authorSelfArchive">Author Self-Archiving Policy</message>
@@ -547,13 +540,7 @@
 	<message key="manager.subscriptionTypes.name">Subscription type</message>
 	<message key="manager.subscriptionTypes.noneCreated">No subscription types have been created.</message>
 	<message key="manager.subscriptionTypes.subscriptionTypeCreatedSuccessfully">Subscription type created successfully.</message>
-
 	<message key="manager.distribution.access">Access</message>
-	<message key="manager.distribution.identifiers">Identifiers</message>
-	<message key="manager.settings.journalDescription"><![CDATA[All settings specific to the journal (masthead, contact, policies, guidelines, affiliation & support, categories and series).]]></message>
-	<message key="manager.settings.publicationDescription">All settings specific to the publication process (general settings, submission stage, review stage, editorial stage, production stage, email templates).</message>
-	<message key="manager.settings.websiteDescription">All settings specific to the public website pages (homepage, appearance, language)</message>
-	<message key="manager.settings.distributionDescription">All settings specific to the distribution process (notification, indexing, archiving, payment, reading tools).</message>
 
 	<!-- Categories -->
 	<message key="manager.setup.categories">Categories</message>
@@ -562,7 +549,7 @@
 	<message key="grid.category.path">Path</message>
 	<message key="grid.action.addSection">Add Section</message>
 	<message key="manager.setup.section.description">Articles within published issues of a journal are organized in Sections, typically by theme or content type (e.g. Review Articles, Research, etc).</message>
-	<message key="settings.roles.gridDescription">Roles are groups of users in the journal who are given access to different permission levels and associated workflows within the journal. There are five different permission levels: Journal Managers have access to everything in the journal (all content and settings); Journal Editors have access to all content within their series; Journal Assistants have access to all monographs that have been explicitly assigned to them by an editor; Reviewers can see and perform the reviews they have been assigned; and Authors can see and interact with a limited amount of information on their own submissions. Additionally, there are five different stage assignments that roles may be given access to: Submission, Internal Review, Review, Editorial and Production.</message>
+	<message key="settings.roles.gridDescription">Roles are groups of users in the journal who are given access to different permission levels and associated workflows within the journal. There are five different permission levels: Journal Managers have access to everything in the journal (all content and settings); Section Editors have complete access to all assigned content; Journal Assistants have limited access to all submissions that have been explicitly assigned to them by an editor; Reviewers can see and perform the submissions they have been assigned to review; and Authors can see and interact with a limited amount of information on their own submissions. Additionally, there are five different stage assignments that roles may be given access to: Submission, Internal Review, Review, Editorial, and Production.</message>
 	<message key="manager.publication.library">Publisher Library</message>
 	<message key="manager.setup.copyrightYearBasis">Base new article's copyright year on</message>
 	<message key="manager.setup.copyrightYearBasis.article">Article: default year will be drawn from the article's publication date, as in "publish-as-you-go".</message>
@@ -575,4 +562,37 @@
 	<message key="grid.genres.title.short">Components</message>
 	<message key="grid.genres.title">Article Components</message>
 	<message key="grid.genres.description">These components are used for file-naming purposes and are presented in a pull-down menu on uploading files. The genres designated ## allow the user to associate the file with either the whole submission 99Z or a particular component by number (e.g., 02).</message>
+
+	<!-- Common DOI export plugins (crossref, datacite, medra) keys -->
+	<!-- plugin tabs -->
+	<message key="plugins.importexport.common.settings">Settings</message>
+	<message key="plugins.importexport.common.settings.DOIPluginSettings">DOI Plugin Settings</message>
+	<message key="plugins.importexport.common.export.articles">Articles</message>
+	<message key="plugins.importexport.common.export.issues">Issues</message>
+	<message key="plugins.importexport.common.export.representations">Galleys</message>
+	<!-- settings form -->
+	<message key="plugins.importexport.common.missingRequirements">Plugin requirements not met</message>
+	<message key="plugins.importexport.common.error.DOIsNotAvailable">In order to use this plugin please go to the "Public Identifier" plugin category, enable and configure the DOI plugin and specify a valid DOI prefix there.</message>
+	<message key="plugins.importexport.common.error.pluginNotConfigured">The plugin is not fully set up.</message>
+	<message key="plugins.importexport.common.error.noDOIContentObjects">No publishing objects are selected for DOI assignment in the DOI public identifier plugin, so there is no deposit or export possibility in this plugin.</message>
+	<message key="plugins.importexport.common.settings.form.password">Password</message>
+	<message key="plugins.importexport.common.settings.form.password.description">Please note that the password will be saved as plain text, i.e. not encrypted.</message>
+	<!-- export filter -->
+	<message key="plugins.importexport.common.filter.issue">Any Issue</message>
+	<message key="plugins.importexport.common.status.any">Any Status</message>
+	<message key="plugins.importexport.common.status.notDeposited">Not Deposited</message>
+	<message key="plugins.importexport.common.status.markedRegistered">Marked registered</message>
+	<message key="plugins.importexport.common.status.registered">Registered</message>
+	<!-- actions -->
+	<message key="plugins.importexport.common.action">Action</message>
+	<message key="plugins.importexport.common.action.export">Export</message>
+	<message key="plugins.importexport.common.action.markRegistered">Mark registered</message>
+	<message key="plugins.importexport.common.action.register">Register</message>
+	<!--  notifications and errors -->
+	<message key="plugins.importexport.common.error.noObjectsSelected">No objects selected.</message>
+	<message key="plugins.importexport.common.error.validation">Could not convert selected objects.</message>
+	<message key="plugins.importexport.common.export.error.outputFileNotWritable">The output file {$param} is not writable.</message>
+	<message key="plugins.importexport.common.register.error.mdsError">Registration was not successful! The DOI registration server returned an error: '{$param}'.</message>
+	<message key="plugins.importexport.common.register.success">Registration successful!</message>
+	<message key="plugins.importexport.common.senderTask.warning.noDOIprefix">DOI prefix is missing for the journal with the path {$path}.</message>
 </locale>

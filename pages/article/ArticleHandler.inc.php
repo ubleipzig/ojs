@@ -59,11 +59,7 @@ class ArticleHandler extends Handler {
 
 		$journal = $request->getContext();
 		$publishedArticleDao = DAORegistry::getDAO('PublishedArticleDAO');
-		if ($journal->getSetting('enablePublicArticleId')) {
-			$publishedArticle = $publishedArticleDao->getPublishedArticleByBestArticleId((int) $journal->getId(), $articleId, true);
-		} else {
-			$publishedArticle = $publishedArticleDao->getPublishedArticleByArticleId((int) $articleId, (int) $journal->getId(), true);
-		}
+		$publishedArticle = $publishedArticleDao->getPublishedArticleByBestArticleId((int) $journal->getId(), $articleId, true);
 
 		$issueDao = DAORegistry::getDAO('IssueDAO');
 		if (isset($publishedArticle)) {
@@ -76,16 +72,8 @@ class ArticleHandler extends Handler {
 			$this->article = $article;
 		}
 
-		if ($galleyId) {
-			$galleyDao = DAORegistry::getDAO('ArticleGalleyDAO');
-			if ($journal->getSetting('enablePublicGalleyId')) {
-				$this->galley = $galleyDao->getByBestGalleyId($galleyId, $this->article->getId());
-			}
-
-			if (!$this->galley) {
-				$this->galley = $galleyDao->getById($galleyId, $this->article->getId());
-			}
-		}
+		$galleyDao = DAORegistry::getDAO('ArticleGalleyDAO');
+		$this->galley = $galleyDao->getByBestGalleyId($galleyId, $this->article->getId());
 	}
 
 	/**
@@ -118,18 +106,16 @@ class ArticleHandler extends Handler {
 
 		// Fetch and assign the galley to the template
 		$galleyDao = DAORegistry::getDAO('ArticleGalleyDAO');
-		if ($journal->getSetting('enablePublicGalleyId')) $galley = $galleyDao->getByBestGalleyId($galleyId, $article->getId());
-		else $galley = $galleyDao->getById($galleyId, $article->getId());
+		$galley = $galleyDao->getByBestGalleyId($galleyId, $article->getId());
 		if ($galley && $galley->getRemoteURL()) $request->redirectUrl($galley->getRemoteURL());
 		$templateMgr->assign('galley', $galley);
-
 		// Copyright and license info
-		if ($journal->getSetting('includeCopyrightStatement') && $journal->getLocalizedSetting('copyrightNotice')) $templateMgr->assign(array(
+		$templateMgr->assign(array(
 			'copyright' => $journal->getLocalizedSetting('copyrightNotice'),
 			'copyrightHolder' => $journal->getLocalizedSetting('copyrightHolder'),
 			'copyrightYear' => $journal->getSetting('copyrightYear')
 		));
-		if ($journal->getSetting('includeLicense') && $article->getLicenseURL()) $templateMgr->assign(array(
+		if ($article->getLicenseURL()) $templateMgr->assign(array(
 			'licenseUrl' => $article->getLicenseURL(),
 			'ccLicenseBadge' => Application::getCCLicenseBadge($article->getLicenseURL()),
 		));
@@ -141,6 +127,11 @@ class ArticleHandler extends Handler {
 		// Consider public identifiers
 		$pubIdPlugins = PluginRegistry::loadCategory('pubIds', true);
 		$templateMgr->assign('pubIdPlugins', $pubIdPlugins);
+
+		// Citation formats
+		$citationPlugins = PluginRegistry::loadCategory('citationFormats');
+		uasort($citationPlugins, create_function('$a, $b', 'return strcmp($a->getDisplayName(), $b->getDisplayName());'));
+		$templateMgr->assign('citationPlugins', $citationPlugins);
 
 		if (!$galley) {
 			// No galley: Prepare the article landing page.
@@ -172,19 +163,6 @@ class ArticleHandler extends Handler {
 				$templateMgr->assign('purchaseArticleEnabled', true);
 			}
 
-			// Article cover page.
-			if (isset($article) && $article->getLocalizedFileName() && $article->getLocalizedShowCoverPage() && !$article->getLocalizedHideCoverPageAbstract()) {
-				import('classes.file.PublicFileManager');
-				$publicFileManager = new PublicFileManager();
-				$templateMgr->assign(array(
-					'coverPagePath' => $request->getBaseUrl() . '/' . $publicFileManager->getJournalFilesPath($journal->getId()) . '/',
-					'coverPageFileName' => $article->getLocalizedFileName(),
-					'width' => $article->getLocalizedWidth(),
-					'height' => $article->getLocalizedHeight(),
-					'coverPageAltText' => $article->getLocalizedCoverPageAltText(),
-				));
-			}
-
 			if (!HookRegistry::call('ArticleHandler::view', array(&$request, &$issue, &$article))) {
 				return $templateMgr->display('frontend/pages/article.tpl');
 			}
@@ -202,11 +180,26 @@ class ArticleHandler extends Handler {
 	 * @param array $args
 	 * @param PKPRequest $request
 	 */
+	function viewFile($args, $request) {
+		// For deprecated OJS 2.x URLs; see https://github.com/pkp/pkp-lib/issues/1541
+		$articleId = isset($args[0]) ? $args[0] : 0;
+		$galleyId = isset($args[1]) ? $args[1] : 0;
+		$fileId = isset($args[2]) ? (int) $args[2] : 0;
+		header("HTTP/1.1 301 Moved Permanently");
+		$request->redirect(null, null, 'download', array($articleId, $galleyId, $fileId));
+	}
+
+	/**
+	 * Download an article file
+	 * @param array $args
+	 * @param PKPRequest $request
+	 */
 	function download($args, $request) {
 		$articleId = isset($args[0]) ? $args[0] : 0;
 		$galleyId = isset($args[1]) ? $args[1] : 0;
 		$fileId = isset($args[2]) ? (int) $args[2] : 0;
 
+		if ($this->galley->getRemoteURL()) $request->redirectUrl($this->galley->getRemoteURL());
 		if ($this->userCanViewGalley($request, $articleId, $galleyId)) {
 			if (!$fileId) {
 				$submissionFile = $this->galley->getFile();
@@ -215,14 +208,13 @@ class ArticleHandler extends Handler {
 					// The file manager expects the real article id.  Extract it from the submission file.
 					$articleId = $submissionFile->getSubmissionId();
 				} else { // no proof files assigned to this galley!
-					assert(false);
 					return null;
 				}
 			}
 
 			if (!HookRegistry::call('ArticleHandler::download', array($this->article, &$this->galley, &$fileId))) {
 				import('lib.pkp.classes.file.SubmissionFileManager');
-				$submissionFileManager = new SubmissionFileManager($this->article->getContextId(), $articleId);
+				$submissionFileManager = new SubmissionFileManager($this->article->getContextId(), $this->article->getId());
 				$submissionFileManager->downloadFile($fileId, null, $request->getUserVar('inline')?true:false);
 			}
 		}
@@ -326,6 +318,57 @@ class ArticleHandler extends Handler {
 			$request->redirect(null, 'search');
 		}
 		return true;
+	}
+
+	/**
+	 * Fetch an item citation
+	 * @param $args
+	 * @param $request
+	 */
+	function cite($args, $request) {
+		$router = $request->getRouter();
+		$this->setupTemplate($request);
+		$articleId = isset($args[0]) ? $args[0] : 0;
+		$citeType = isset($args[1]) ? $args[1] : null;
+		$returnFormat = isset($args[2]) ? $args[2] : null;
+
+		$citationPlugins = PluginRegistry::loadCategory('citationFormats');
+		uasort($citationPlugins, create_function('$a, $b', 'return strcmp($a->getDisplayName(), $b->getDisplayName());'));
+
+		import('lib.pkp.classes.core.JSONMessage');
+
+		if (empty($citeType) || !isset($citationPlugins[$citeType])) {
+			AppLocale::requireComponents(LOCALE_COMPONENT_APP_SUBMISSION);
+			$errorMessage = __('submission.citationFormat.notFound');
+			if ($returnFormat == 'json') {
+				return new JSONMessage(false, $errorMessage);
+			} else {
+				echo $errorMessage;
+			}
+			return;
+		}
+
+		$article = $this->article;
+		$issue = $this->issue;
+		$journal = $request->getContext();
+
+		// Initiate a file download and exit
+		if ($citationPlugins[$citeType]->isDownloadable()) {
+			$citationPlugins[$citeType]->downloadCitation($article, $issue, $journal);
+			return;
+		}
+
+		$citation = $citationPlugins[$citeType]->fetchCitation($article, $issue, $journal);
+
+		// Return a JSON formatted string
+		if ($returnFormat == 'json') {
+			return new JSONMessage(true, $citation);
+
+		// Display it straight to the browser
+		} else {
+			echo $citation;
+			return;
+		}
 	}
 
 	/**

@@ -19,14 +19,12 @@
 	{rdelim});
 </script>
 
-<form class="pkp_form" id="publicationMetadataEntryForm" method="post" action="{url router=$smarty.const.ROUTE_COMPONENT op="saveForm"}">
+<form class="pkp_form" id="publicationMetadataEntryForm" method="post" action="{url router=$smarty.const.ROUTE_COMPONENT op="savePublicationMetadataForm"}">
+	{csrf}
 	{include file="controllers/notification/inPlaceNotification.tpl" notificationId="publicationMetadataFormFieldsNotification"}
 
 	<input type="hidden" name="submissionId" value="{$submissionId|escape}" />
 	<input type="hidden" name="stageId" value="{$stageId|escape}" />
-	<input type="hidden" name="tabPos" value="1" />
-	<input type="hidden" name="displayedInContainer" value="{$formParams.displayedInContainer|escape}" />
-	<input type="hidden" name="tab" value="publication" />
 	<input type="hidden" name="waivePublicationFee" value="0" />
 	<input type="hidden" name="markAsPaid" value="0" />
 
@@ -42,28 +40,11 @@
 			{/fbvFormSection}
 		{/fbvFormArea}
 
-		{if $enablePublicArticleId || $enablePageNumber}
-			{fbvFormArea id="customExtras" title="editor.article.customJournalSettings"}
-				{fbvFormSection for="customExtras"}
-					{if $enablePublicArticleId}
-							{if $publishedArticle}
-								{assign var=publicArticleId value=$publishedArticle->getPubId('publisher-id')}
-							{else}
-								{assign var=publicArticleId value=0}
-							{/if}
-							{fbvElement type="text" id="publicArticleId" label="editor.issues.publicId" value=$publicArticleId inline=true size=$fbvStyles.size.MEDIUM}
-					{/if}
-					{if $enablePageNumber}
-							{if $publishedArticle}
-								{assign var=pages value=$publishedArticle->getPages()}
-							{else}
-								{assign var=pages value=0}
-							{/if}
-							{fbvElement type="text" id="pages" label="editor.issues.pages" value=$pages inline=true size=$fbvStyles.size.MEDIUM}
-					{/if}
-				{/fbvFormSection}
-			{/fbvFormArea}
-		{/if}
+		{fbvFormArea id="pagesInformation" title="editor.issues.pages"}
+			{fbvFormSection for="customExtras"}
+				{fbvElement type="text" id="pages" label="editor.issues.pages" value=$submission->getPages() inline=true size=$fbvStyles.size.MEDIUM}
+			{/fbvFormSection}
+		{/fbvFormArea}
 
 		{if $publishedArticle}
 			{fbvFormArea id="schedulingInformation" title="editor.issues.published"}

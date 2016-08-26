@@ -4,10 +4,10 @@
 <!--
   * locale/en_US/locale.xml
   *
-  * Copyright (c) 2014-2016 Simon Fraser University Library
+  * Copyright (c) 2013-2016 Simon Fraser University Library
   * Copyright (c) 2003-2016 John Willinsky
   * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
-  *
+  * Localization information: https://pkp.sfu.ca/wiki/index.php?title=Translating_OxS
   * Localization strings.
   -->
 
@@ -188,12 +188,18 @@
 	<message key="journal.path">Path</message>
 	<message key="context.context">Journal</message>
 	<message key="journal.issn">ISSN</message>
+	<message key="journal.viewAllIssues">View All Issues</message>
 
 	<!-- User -->
 	<message key="user.noRoles.selectUsersWithoutRoles">Include users with no roles in this journal.</message>
 	<message key="user.profile.profileImage">Profile Image</message>
 	<message key="user.showAllJournals">Show My Journals</message>
 	<message key="user.registerForOtherJournals">Register for Other Journals</message>
+	<message key="user.reviewerPrompt">Would you be willing to review submissions to this journal?</message>
+	<message key="user.reviewerPrompt.userGroup">Yes, request the {$userGroup} role.</message>
+	<message key="user.register.contextsPrompt">Which journals on this site would you like to register with?</message>
+	<message key="user.register.otherContextRoles">Request the following roles.</message>
+	<message key="user.register.noContextReviewerInterests">If you requested to be a reviewer on any journal, please enter your subject interests.</message>
 	<message key="user.myJournals">My Journals</message>
 	<message key="user.manageMySubscriptions">Manage My Subscriptions</message>
 	<message key="user.noRoles.chooseJournal">Your account is not currently associated with any journals. Please choose a journal:</message>
@@ -371,8 +377,6 @@ Note that the OAI interface can be disabled for this site by editing the OJS sys
 	<message key="plugins.categories.auth.description">Authorization Plugins allow Open Journal Systems to delegate user authentication tasks to other systems, such as LDAP servers.</message>
 	<message key="plugins.categories.citationFormats.description">Citation format plugins provide users with various formats in which to access article citations.</message>
 	<message key="plugins.categories.generic.description">Generic plugins are used to extend Open Journal Systems in a variety of ways that are not supported by the other plugin categories.</message>
-	<message key="plugins.categories.implicitAuth">Implicit Authentication Plugins</message>
-	<message key="plugins.categories.implicitAuth.description">Implicit Authentication plugins implement support for authenticating users based on http headers.</message>
 
 	<message key="manager.setup.lockssDescription"><![CDATA[Open Journal Systems supports the <a href="http://www.lockss.org/" target="_blank">LOCKSS</a> (Lots of Copies Keep Stuff Safe) system to ensure a secure and permanent archive for the journal. LOCKSS is open source software developed at Stanford University Library that enables libraries to preserve selected web journals by regularly polling registered journal websites for newly published content and archiving it. Each archive is continually validated against other library caches, and if content is found to be corrupted or lost, the other caches or the journal is used to restore it.
 <br /><br />
@@ -678,9 +682,6 @@ Active is how many reviews are currently being considered or underway.]]></messa
 	<message key="user.register.selectContext">Select a journal to register with:</message>
 	<message key="user.register.noJournals">There are no journals you may register with on this site.</message>
 	<message key="user.register.privacyStatement">Privacy Statement</message>
-	<message key="user.register.alreadyRegisteredOtherContext"><![CDATA[<a href="{$registerUrl}">Click here</a> if you are already registered with this or another journal on this site.]]></message>
-	<message key="user.register.notAlreadyRegisteredOtherContext"><![CDATA[<a href="{$registerUrl}">Click here</a> if you are <strong>not</strong> already registered with this or another journal on this site.]]></message>
-	<message key="user.register.loginToRegister">Enter your existing username and password to register with this journal.</message>
 	<message key="user.register.registrationDisabled">This journal is currently not accepting user registrations.</message>
 	<message key="user.register.form.passwordLengthTooShort">The password you entered is not long enough.</message>
 	<message key="user.register.readerDescription">Notified by email on publication of an issue of the journal.</message>
@@ -912,7 +913,7 @@ Active is how many reviews are currently being considered or underway.]]></messa
 	<message key="payment.subscription.expires">Expires</message>
 
 	<!-- Installer -->
-	<message key="installer.ojsInstallation">OJS Installation</message>
+	<message key="installer.appInstallation">OJS Installation</message>
 	<message key="installer.ojsUpgrade">OJS Upgrade</message>
 	<message key="installer.installationInstructions"><![CDATA[<h4>OJS Version {$version}</h4>
 
@@ -975,13 +976,11 @@ Your server currently supports mbstring: <strong>{$supportsMBString}</strong>]]>
 <p>The installer could not automatically overwrite the configuration file. Before attempting to use the system, please open <tt>config.inc.php</tt> in a suitable text editor and replace its contents with the contents of the text field below.</p>]]></message>
 	<message key="installer.installationComplete"><![CDATA[<p>Installation of OJS has completed successfully.</p>
 <p>To begin using the system, <a href="{$loginUrl}">login</a> with the username and password entered on the previous page.</p>
-<p>If you wish to receive news and updates, you can:</p>
+<p>If you wish to be part of the PKP community, you can:</p>
 <ol>
-	<li><a href="http://pkp.sfu.ca/ojs/register" target="_new">Register</a> your journal, conference, or harvester and receive updates on software upgrades, security patches, and more.</li>
-	<li>Join our <a href="http://pkp.sfu.ca/informed" target="_new">discussion list</a> for OJS, OCS, the Harvester, Lemon8-XML, OMP, or all of the above.</li>
-	<li>Subscribe to the <a href="http://pkp.sfu.ca/blog" target="_new">PKP blog</a> <a href="http://pkp.sfu.ca/blog/feed" target="_new">RSS feed</a>.</li>
-</ol>
-<p>If you have questions or comments, please visit the <a href="http://forum.pkp.sfu.ca" target="_new">support forum</a>.</p>]]></message>
+	<li>Read the <a href="http://pkp.sfu.ca/blog" target="_new">PKP blog</a> and follow the <a href="http://pkp.sfu.ca/blog/feed" target="_new">RSS feed</a> for news and updates.</li>
+	<li>Visit the <a href="http://forum.pkp.sfu.ca" target="_new">support forum</a> if you have questions or comments.</li>
+</ol>]]></message>
 	<message key="installer.upgradeComplete"><![CDATA[<p>Upgrade of OJS to version {$version} has completed successfully.</p>
 <p>Don't forget to set the "installed" setting in your config.inc.php configuration file back to <em>On</em>.</p>
 <p>If you haven't already registered and wish to receive news and updates, <strong>please register at <a href="http://pkp.sfu.ca/ojs/register" target="_new">http://pkp.sfu.ca/ojs/register</a>.</strong> If you have questions or comments, please visit the <a href="http://forum.pkp.sfu.ca" target="_new">support forum</a>.</p>]]></message>
@@ -991,7 +990,6 @@ Your server currently supports mbstring: <strong>{$supportsMBString}</strong>]]>
 	<message key="site.upgradeAvailable.manager"><![CDATA[There is a new version of OJS available! You are currently using OJS {$currentVersion}. The most recent version is OJS {$latestVersion}. Please contact your Site Administrator ({$siteAdminName}, <a href="mailto:{$siteAdminEmail}">{$siteAdminEmail}</a>) to notify them of this new release. More information can be found <a href="http://pkp.sfu.ca/ojs_download" target="_new">here</a>.]]></message>
 
 	<!-- Article Logs -->
-	<message key="log.author.submitted">{$authorName} has entered a new submission, ID {$submissionId}.</message>
 	<message key="log.author.documentRevised">{$authorName} has revised article {$submissionId}. The new file ID is {$fileId}.</message>
 	<message key="log.review.reviewerUnassigned">{$reviewerName} has been unassigned from reviewing submission {$submissionId} for review round {$round}.</message>
 	<message key="log.review.reviewInitiated">The round {$round} review by {$reviewerName} for submission {$submissionId} has been initiated.</message>
@@ -1144,7 +1142,7 @@ Validation may fail on search URLs that require posted form data.]]></message>
 	<message key="grid.catalogEntry.approvedRepresentation.message"><![CDATA[<p>Approve this galley for publication.</p>]]></message>
 	<message key="grid.catalogEntry.approvedRepresentation.removeMessage"><![CDATA[<p>Remove approval of this galley.</p>]]></message>
 	<message key="search.cli.rebuildIndex.indexing">Indexing "{$journalName}"</message>
-	<message key="search.cli.rebuildIndex.indexingByJournalNotSupported">This search implementation does not allow per-journ
-al re-indexing.</message>
+	<message key="search.cli.rebuildIndex.indexingByJournalNotSupported">This search implementation does not allow per-journal re-indexing.</message>
 	<message key="search.cli.rebuildIndex.unknownJournal">The given journal path "{$journalPath}" could not be resolved to a journal.</message>
+
 </locale>

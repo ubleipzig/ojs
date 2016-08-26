@@ -59,8 +59,8 @@ class OAIMetadataFormat_DCTest extends PKPTestCase {
 		$pluginSettingsDao = DAORegistry::getDAO('PluginSettingsDAO'); /* @var $pluginSettingsDao PluginSettingsDAO */
 		$pluginSettingsDao->updateSetting($journalId, 'doipubidplugin', 'enabled', 1);
 		$pluginSettingsDao->updateSetting($journalId, 'doipubidplugin', 'enableIssueDoi', 1);
-		$pluginSettingsDao->updateSetting($journalId, 'doipubidplugin', 'enableArticleDoi', 1);
-		$pluginSettingsDao->updateSetting($journalId, 'doipubidplugin', 'enableGalleyDoi', 1);
+		$pluginSettingsDao->updateSetting($journalId, 'doipubidplugin', 'enableSubmissionDoi', 1);
+		$pluginSettingsDao->updateSetting($journalId, 'doipubidplugin', 'enableRepresentationyDoi', 1);
 
 		// Author
 		import('classes.article.Author');
@@ -229,9 +229,6 @@ class OAIMetadataFormat_DCTest extends PKPTestCase {
 
 			case 'publisherInstitution':
 				return array('journal-publisher');
-
-			case 'enablePublicGalleyId':
-				return false;
 
 			case 'onlineIssn':
 				return 'onlineIssn';

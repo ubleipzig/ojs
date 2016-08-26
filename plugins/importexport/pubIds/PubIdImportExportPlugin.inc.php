@@ -209,7 +209,7 @@ class PubIdImportExportPlugin extends ImportExportPlugin {
 						if (!$pubIdPlugin->checkDuplicate($pubIdValue, $pubObject, $journal->getId())) {
 							$errors[] = array('plugins.importexport.pubIds.import.error.duplicatePubId', array('pubId' => $pubIdValue));
 						} else {
-							$pubIdPlugin->setStoredPubId($pubObject, $pubObjectType, $pubIdValue);
+							$pubIdPlugin->setStoredPubId($pubObject, $pubIdValue);
 							$pubId = array('pubObjectType' => $pubObjectType, 'pubObjectId' => $pubObjectId, 'value' => $pubIdValue);
 						}
 					} else {
@@ -313,31 +313,6 @@ class PubIdImportExportPlugin extends ImportExportPlugin {
 
 			}
 		}
-	}
-
-	/**
-	 * Check if this is a relative path to the xml docuemnt
-	 * that describes public identifiers to be imported.
-	 * @param $url string path to the xml file
-	 */
-	function isRelativePath($url) {
-		// FIXME This is not very comprehensive, but will work for now.
-		if ($this->isAllowedMethod($url)) return false;
-		if ($url[0] == '/') return false;
-		return true;
-	}
-
-	function isAllowedMethod($url) {
-		$allowedPrefixes = array(
-			'http://',
-			'ftp://',
-			'https://',
-			'ftps://'
-		);
-		foreach ($allowedPrefixes as $prefix) {
-			if (substr($url, 0, strlen($prefix)) === $prefix) return true;
-		}
-		return false;
 	}
 
 	/**

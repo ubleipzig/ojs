@@ -45,6 +45,7 @@
 		{rdelim});
 	</script>
 	<form method="post" id="searchForm" action="{url op="search"}">
+	{csrf}
 
 		{* Main search input *}
 		<h2 class="pkp_screen_reader">
@@ -124,9 +125,7 @@
 					<input type="submit" value="{translate key="common.search"}">
 				{/capture}
 
-				{* Expand full filter options *}
-				{* @todo advanced options template and toggle needs work *}
-				{include file="controllers/extrasOnDemand.tpl" id="emptyFilters" moreDetailsText="search.advancedSearchMore" lessDetailsText="search.advancedSearchLess" extraContent=$emptyFilters}
+				{$emptyFilters}
 			{/if}
 
 		</div><!-- .filters -->
@@ -195,7 +194,7 @@
 					{assign var="showAuthor" value=false}
 				{/if}
 				<li{if $galleys} class="has_galleys"{/if}>
-					<a class="title" href="{url journal=$journal->getPath() page="article" op="view" path=$publishedArticle->getBestArticleId($journal)}">
+					<a class="title" href="{url journal=$journal->getPath() page="article" op="view" path=$publishedArticle->getBestArticleId()}">
 						{$article->getLocalizedTitle()|strip_unsafe_html}
 					</a>
 					{if $showAuthor}
@@ -206,7 +205,7 @@
 					{if !$currentJournal}
 						<a class="journal" href="{url journal=$journal->getPath()}">{$journal->getLocalizedName()|escape}</a>
 					{/if}
-					<a class="issue" href="{url journal=$journal->getPath() page="issue" op="view" path=$issue->getBestIssueId($journal)}">{$issue->getIssueIdentification()|escape}</a>
+					<a class="issue" href="{url journal=$journal->getPath() page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueIdentification()|escape}</a>
 					{if $galleys}
 						<ul class="galley_links">
 							{foreach from=$galleys item=galley}
@@ -262,4 +261,4 @@
 
 {/if}
 
-{include file="common/frontend/footer.tpl"}
+{include file="frontend/components/footer.tpl"}

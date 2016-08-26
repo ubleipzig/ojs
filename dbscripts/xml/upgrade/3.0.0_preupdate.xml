@@ -24,6 +24,14 @@
 	<sql>
 		<rename table="edit_decisions" column="article_id" to="submission_id" />
 	</sql>
+	<sql>
+		<rename table="static_pages" column="journal_id" to="context_id" />
+	</sql>
+
+	<!-- Articles migration -->
+	<sql>
+		<query>CREATE TABLE articles_migration AS (SELECT journal_id, article_id, user_id, submission_file_id, revised_file_id, review_file_id, editor_file_id FROM articles)</query>
+	</sql>
 
 	<!-- Article files migration -->
 	<sql>
@@ -33,8 +41,8 @@
 	<!-- Bug #8235: Rename article* submission* -->
 	<sql>
 		<!-- article_files to submission_files -->
+		<rename table="article_files" column="article_id" to="submission_id" />
 		<rename table="article_files" to="submission_files" />
-		<rename table="submission_files" column="article_id" to="submission_id" />
 		<!-- article_comments to submission_comments -->
 		<rename table="article_comments" column="article_id" to="submission_id" />
 		<rename table="article_comments" to="submission_comments" />

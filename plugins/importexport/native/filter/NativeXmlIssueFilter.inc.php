@@ -114,9 +114,7 @@ class NativeXmlIssueFilter extends NativeImportFilter {
 		} else switch ($n->tagName) {
 			// Otherwise, delegate to specific parsing code
 			case 'id':
-				// Update advice not supported yet.
-				$advice = $n->getAttribute('advice');
-				assert (!$advice || $advice == 'ignore');
+				$this->parseIdentifier($n, $issue);
 				break;
 			case 'articles':
 				$this->parseArticles($n, $issue);
@@ -130,9 +128,6 @@ class NativeXmlIssueFilter extends NativeImportFilter {
 			case 'issue_cover':
 				$this->parseIssueCover($n, $issue);
 				break;
-			case 'issue_style':
-				$this->parseIssueStyle($n, $issue);
-				break;
 			default:
 				fatalError('Unknown element ' . $n->tagName);
 		}
@@ -141,6 +136,33 @@ class NativeXmlIssueFilter extends NativeImportFilter {
 	//
 	// Element parsing
 	//
+	/**
+	 * Parse an identifier node and set up the issue object accordingly
+	 * @param $element DOMElement
+	 * @param $issue Issue
+	 */
+	function parseIdentifier($element, $issue) {
+		$deployment = $this->getDeployment();
+		$advice = $element->getAttribute('advice');
+		switch ($element->getAttribute('type')) {
+			case 'internal':
+				// "update" advice not supported yet.
+				assert(!$advice || $advice == 'ignore');
+				break;
+			case 'public':
+				if ($advice == 'update') {
+					$issue->setStoredPubId('publisher-id', $element->textContent);
+				}
+				break;
+			default:
+				if ($advice == 'update') {
+					// Load pub id plugins
+					$pubIdPlugins = PluginRegistry::loadCategory('pubIds', true, $deployment->getContext()->getId());
+					$issue->setStoredPubId($element->getAttribute('type'), $element->textContent);
+				}
+		}
+	}
+
 	/**
 	 * Parse an articles element
 	 * @param $node DOMElement
@@ -276,41 +298,13 @@ class NativeXmlIssueFilter extends NativeImportFilter {
 	function parseIssueCover($node, $issue) {
 		for ($n = $node->firstChild; $n !== null; $n=$n->nextSibling) {
 			if (is_a($n, 'DOMElement')) {
-				list($locale, $value) = $this->parseLocalizedContent($n);
 				switch ($n->tagName) {
-					case 'file_name': $issue->setFileName($value, $locale); break;
-					case 'original_file_name': $issue->setOriginalFileName($value, $locale); break;
-					case 'hide_cover_page_archives': $issue->setHideCoverPageArchives($value, $locale); break;
-					case 'hide_cover_page_cover': $issue->setHideCoverPageCover($value, $locale); break;
-					case 'show_cover_page': $issue->setShowCoverPage($value, $locale); break;
-					case 'cover_page_description': $issue->setCoverPageDescription($value, $locale); break;
-					case 'cover_page_alt_text': $issue->setCoverPageAltText($value, $locale); break;
+					case 'cover_image': $issue->setCoverImage($n->textContent); break;
+					case 'cover_image_alt_text': $issue->setCoverImageAltText($n->textContent); break;
 					case 'embed':
 						import('classes.file.PublicFileManager');
 						$publicFileManager = new PublicFileManager();
-						$filePath = $publicFileManager->getContextFilesPath(ASSOC_TYPE_JOURNAL, $issue->getJournalId()) . '/' . $issue->getLocalizedFileName();
-						file_put_contents($filePath, base64_decode($n->textContent));
-						break;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Parse out the issue style sheet and store it in an issue.
-	 * @param DOMElement $node
-	 * @param Issue $issue
-	 */
-	function parseIssueStyle($node, $issue) {
-		for ($n = $node->firstChild; $n !== null; $n=$n->nextSibling) {
-			if (is_a($n, 'DOMElement')) {
-				switch ($n->tagName) {
-					case 'style_file_name': $issue->setStyleFileName($n->textContent); break;
-					case 'original_style_file_name': $issue->setOriginalStyleFileName($n->textContent); break;
-					case 'embed':
-						import('classes.file.PublicFileManager');
-						$publicFileManager = new PublicFileManager();
-						$filePath = $publicFileManager->getContextFilesPath(ASSOC_TYPE_JOURNAL, $issue->getJournalId()) . '/' . $issue->getStyleFileName();
+						$filePath = $publicFileManager->getContextFilesPath(ASSOC_TYPE_JOURNAL, $issue->getJournalId()) . '/' . $issue->getCoverImage();
 						file_put_contents($filePath, base64_decode($n->textContent));
 						break;
 				}
